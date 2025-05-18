@@ -17,7 +17,7 @@ public abstract class SavedRailBase extends NameColorDataBase {
 	protected int dwellTime;
 	private final Set<BlockPos> positions;
 
-	public static final int MAX_DWELL_TIME = 1200;
+	public static final int MAX_DWELL_TIME = 7200;
 	private static final int DEFAULT_DWELL_TIME = 20;
 	private static final String KEY_POS_1 = "pos_1";
 	private static final String KEY_POS_2 = "pos_2";
