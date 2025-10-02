@@ -521,7 +521,7 @@ public class RouteMapGenerator implements IGui {
 					final Station station = clientCache.stationIdMap.get(stationId);
 					final int[] dimensions = new int[2];
 					final byte[] pixels = clientCache.getTextPixels(station == null ? "" : station.name, dimensions, maxStringWidth, (int) ((fontSizeBig + fontSizeSmall) * ClientCache.LINE_HEIGHT_MULTIPLIER), fontSizeBig, fontSizeSmall, fontSizeSmall / 4, vertical ? HorizontalAlignment.RIGHT : HorizontalAlignment.CENTER);
-					drawString(nativeImage, pixels, x, y + (textBelow ? lines * lineSpacing : -1) + (textBelow ? 1 : -1) * lineSize * 5 / 4, dimensions, HorizontalAlignment.CENTER, textBelow ? VerticalAlignment.TOP : VerticalAlignment.BOTTOM, currentStation ? 0 : 0, passed ? ARGB_LIGHT_GRAY : currentStation ? 0x000080 : ARGB_BLACK, vertical);
+					drawString(nativeImage, pixels, x, y + (textBelow ? lines * lineSpacing : -1) + (textBelow ? 1 : -1) * lineSize * 5 / 4, dimensions, HorizontalAlignment.CENTER, textBelow ? VerticalAlignment.TOP : VerticalAlignment.BOTTOM, currentStation ? 0 : 0, passed ? ARGB_LIGHT_GRAY : currentStation ? 0xFF0000 : ARGB_BLACK, vertical);
 				}));
 
 				if (transparentWhite) {
