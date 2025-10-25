@@ -2,25 +2,24 @@ package mtr.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import mtr.block.BlockPSDAPGDoorBase;
-import mtr.block.IBlock;
+import mtr.client.ClientData;
 import mtr.client.IDrawing;
-import mtr.data.IGui;
-import mtr.mappings.BlockEntityRendererMapper;
 import mtr.mappings.UtilitiesClient;
+import mtr.mappings.BlockEntityRendererMapper;
+import mtr.render.RenderTrains;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import mtr.render.RenderTrains;
 
 public class RenderPSDAPGDoorStationName<T extends BlockPSDAPGDoorBase.TileEntityPSDAPGDoorBase> extends BlockEntityRendererMapper<T> {
 
-    public RenderPSDAPGDoorStationName(BlockEntityRenderDispatcher dispatcher) {
-        super(dispatcher);
+    public RenderPSDAPGDoorStationName(BlockEntityRendererProvider.Context context) {
+        super(context);
     }
 
     @Override
@@ -39,13 +38,12 @@ public class RenderPSDAPGDoorStationName<T extends BlockPSDAPGDoorBase.TileEntit
     }
     
     private void renderStationName(T entity, BlockPos pos, BlockState state, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
-        final Direction facing = IBlock.getStatePropertySafe(state, BlockPSDAPGDoorBase.FACING);
-        final boolean side = IBlock.getStatePropertySafe(state, BlockPSDAPGDoorBase.SIDE) == BlockPSDAPGDoorBase.EnumSide.RIGHT;
-        final ClientCache dataCache = ClientData.DATA_CACHE;
-        final long platformId = dataCache.getClosePlatformId(pos);
+        final Direction facing = state.getValue(BlockPSDAPGDoorBase.FACING);
+        final boolean side = state.getValue(BlockPSDAPGDoorBase.SIDE) == BlockPSDAPGDoorBase.EnumSide.RIGHT;
+        final long platformId = entity.platformId;
         
-        if (platformId != 0 && dataCache.platformIdToStation.containsKey(platformId)) {
-            final String stationName = dataCache.platformIdToStation.get(platformId).name;
+        if (platformId != 0 && ClientData.DATA_CACHE.platformIdToStation.containsKey(platformId)) {
+            final String stationName = ClientData.DATA_CACHE.platformIdToStation.get(platformId).name;
             
             RenderTrains.scheduleRender(new ResourceLocation("mtr:textures/block/sign/white.png"), false, RenderTrains.QueuedRenderLayer.EXTERIOR, (matricesNew, vertexConsumer) -> {
                 matricesNew.pushPose();
@@ -60,7 +58,7 @@ public class RenderPSDAPGDoorStationName<T extends BlockPSDAPGDoorBase.TileEntit
                 
                 IDrawing.drawTexture(matricesNew, vertexConsumer, -0.5F, 0, -0.501F, 0.5F, 0.1F, 0.501F, facing, -1, light);
                 
-                IDrawing.drawStringWithFont(matricesNew, vertexConsumer, stationName, 0, 0.05F, 0xFFFFFF, 0.03F, false, light, IGui.HorizontalAlignment.CENTER);
+                IDrawing.drawText(matricesNew, vertexConsumer, stationName, 0, 0.05F, 0xFFFFFF, 0.03F, false, light, IDrawing.Alignment.CENTER);
                 
                 matricesNew.popPose();
             });

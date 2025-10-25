@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class BlockPSDDoor extends BlockPSDAPGDoorBase {
 
-	protected final int style;
+	private final int style;
 
 	public BlockPSDDoor(int style) {
 		super();

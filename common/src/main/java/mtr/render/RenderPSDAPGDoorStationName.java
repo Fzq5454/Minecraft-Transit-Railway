@@ -2,13 +2,9 @@ package mtr.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import mtr.block.BlockPSDAPGDoorBase;
-import mtr.block.IBlock;
 import mtr.client.ClientData;
-import mtr.client.ClientCache;
 import mtr.client.IDrawing;
 import mtr.mappings.UtilitiesClient;
-import mtr.data.RailwayData;
-import mtr.data.Platform;
 import mtr.render.RenderTrains;
 import mtr.mappings.BlockEntityRendererMapper;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -19,7 +15,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import mtr.data.IGui;
 
 import java.util.Set;
 
@@ -46,13 +41,12 @@ public class RenderPSDAPGDoorStationName<T extends BlockPSDAPGDoorBase.TileEntit
     }
     
     private void renderStationName(T entity, BlockPos pos, BlockState state, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
-        final Direction facing = IBlock.getStatePropertySafe(state, BlockPSDAPGDoorBase.FACING);
-        final boolean side = IBlock.getStatePropertySafe(state, BlockPSDAPGDoorBase.SIDE) == BlockPSDAPGDoorBase.EnumSide.RIGHT;
-        final ClientCache dataCache = ClientData.DATA_CACHE;
-        final long platformId = dataCache.getClosePlatformId(pos);
+        final Direction facing = state.getValue(BlockPSDAPGDoorBase.FACING);
+        final boolean side = state.getValue(BlockPSDAPGDoorBase.SIDE) == EnumSide.RIGHT;
+        final long platformId = entity.platformId;
         
         if (platformId != 0) {
-            final String stationName = dataCache.platformIdToStation.getOrDefault(platformId, null) != null ? dataCache.platformIdToStation.get(platformId).name : "";
+            final String stationName = ClientData.DATA_CACHE.platformIdToStation.get(platformId) != null ? ClientData.DATA_CACHE.platformIdToStation.get(platformId).name : "";
             
             RenderTrains.scheduleRender(new ResourceLocation("mtr:textures/block/sign/white.png"), false, RenderTrains.QueuedRenderLayer.EXTERIOR, (matricesNew, vertexConsumer) -> {
                 matricesNew.pushPose();
@@ -67,7 +61,7 @@ public class RenderPSDAPGDoorStationName<T extends BlockPSDAPGDoorBase.TileEntit
                 
                 IDrawing.drawTexture(matricesNew, vertexConsumer, -0.5F, 0, -0.501F, 0.5F, 0.1F, 0.501F, facing, -1, light);
                 
-                IDrawing.drawStringWithFont(matricesNew, vertexConsumer, stationName, 0, 0.05F, 0xFFFFFF, 0.03F, false, light, IGui.HorizontalAlignment.CENTER);
+                IDrawing.drawText(matricesNew, vertexConsumer, stationName, 0, 0.05F, 0xFFFFFF, 0.03F, false, light, IDrawing.Alignment.CENTER);
                 
                 matricesNew.popPose();
             });
