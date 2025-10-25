@@ -47,7 +47,7 @@ public class RenderPSDAPGDoorStationName<T extends BlockPSDAPGDoorBase.TileEntit
     
     private void renderStationName(T entity, BlockPos pos, BlockState state, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
         final Direction facing = IBlock.getStatePropertySafe(state, BlockPSDAPGDoorBase.FACING);
-        final boolean side = IBlock.getStatePropertySafe(state, BlockPSDAPGDoorBase.SIDE) == EnumSide.RIGHT;
+        final boolean side = IBlock.getStatePropertySafe(state, BlockPSDAPGDoorBase.SIDE) == BlockPSDAPGDoorBase.EnumSide.RIGHT;
         final ClientCache dataCache = ClientData.DATA_CACHE;
         final long platformId = dataCache.getClosePlatformId(pos);
         
