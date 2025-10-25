@@ -1,6 +1,7 @@
 package mtr.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import mtr.block.BlockPSDAPGDoorBase;
 import mtr.block.BlockPSDDoorStationName;
 import mtr.block.IBlock;
@@ -10,6 +11,7 @@ import mtr.data.IGui;
 import mtr.mappings.UtilitiesClient;
 import mtr.mappings.BlockEntityRendererMapper;
 import mtr.render.RenderTrains;
+import net.minecraft.client.renderer.RenderLayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
@@ -61,8 +63,8 @@ public class RenderPSDAPGDoorStationName<T extends BlockPSDAPGDoorBase.TileEntit
                 }
                 
                 IDrawing.drawTexture(matricesNew, vertexConsumer, -0.5F, 0, -0.501F, 0.5F, 0.1F, 0.501F, facing, -1, light);
-                
-                IDrawing.drawStringWithFont(matricesNew, Minecraft.getInstance().font, vertexConsumers.getBufferSource(), stationName, 0, 0.05F, light);
+
+                IDrawing.drawStringWithFont(matricesNew, Minecraft.getInstance().font, vertexConsumers.getBuffer(RenderLayer.getText()), stationName, 0, 0.05F, light);
                 
                 matricesNew.popPose();
             });
