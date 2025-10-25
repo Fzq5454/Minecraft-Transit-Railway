@@ -2,9 +2,9 @@ package mtr.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import mtr.block.BlockPSDAPGDoorBase;
+import mtr.block.BlockPSDDoorStationName;
 import mtr.block.IBlock;
 import mtr.client.ClientData;
-import mtr.block.IBlock;
 import mtr.client.IDrawing;
 import mtr.data.IGui;
 import mtr.mappings.UtilitiesClient;
@@ -44,7 +44,7 @@ public class RenderPSDAPGDoorStationName<T extends BlockPSDAPGDoorBase.TileEntit
     private void renderStationName(T entity, BlockPos pos, BlockState state, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
         final Direction facing = state.getValue(BlockPSDAPGDoorBase.FACING);
         final boolean side = state.getValue(BlockPSDAPGDoorBase.SIDE) == BlockPSDAPGDoorBase.EnumSide.RIGHT;
-        final long platformId = entity instanceof BlockPSDDoorStationName.TileEntityPSDDoorStationName ? ((BlockPSDDoorStationName.TileEntityPSDDoorStationName) entity).getPlatformId() : 0;
+        final long platformId = entity.getPlatformId();
         
         if (platformId != 0 && ClientData.DATA_CACHE.platformIdToStation.containsKey(platformId)) {
             final String stationName = ClientData.DATA_CACHE.platformIdToStation.get(platformId).name;
@@ -62,7 +62,7 @@ public class RenderPSDAPGDoorStationName<T extends BlockPSDAPGDoorBase.TileEntit
                 
                 IDrawing.drawTexture(matricesNew, vertexConsumer, -0.5F, 0, -0.501F, 0.5F, 0.1F, 0.501F, facing, -1, light);
                 
-                IDrawing.drawStringWithFont(matricesNew, Minecraft.getInstance().font, stationName, 0, 0.05F, 0xFFFFFF, 0.03F, false, light, IGui.HorizontalAlignment.CENTER, IGui.VerticalAlignment.CENTER);
+                IDrawing.drawStringWithFont(matricesNew, Minecraft.getInstance().font, vertexConsumer, stationName, 0, 0.05F, 0xFFFFFF, 0.03F, false, light);
                 
                 matricesNew.popPose();
             });

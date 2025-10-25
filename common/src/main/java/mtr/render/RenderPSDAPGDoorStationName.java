@@ -65,7 +65,7 @@ public class RenderPSDAPGDoorStationName<T extends BlockPSDAPGDoorBase.TileEntit
                 
                 IDrawing.drawTexture(matricesNew, vertexConsumer, -0.5F, 0, -0.501F, 0.5F, 0.1F, 0.501F, facing, -1, light);
                 
-                IDrawing.drawStringWithFont(matricesNew, Minecraft.getInstance().font, stationName, 0, 0.05F, 0xFFFFFF, 0.03F, false, light, IGui.HorizontalAlignment.CENTER, IGui.VerticalAlignment.CENTER);
+                IDrawing.drawStringWithFont(matricesNew, Minecraft.getInstance().font, vertexConsumer, stationName, 0, 0.05F, 0xFFFFFF, 0.03F, false, light);
                 
                 matricesNew.popPose();
             });
