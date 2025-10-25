@@ -24,9 +24,33 @@ public class BlockPSDDoorStationName extends BlockPSDDoor {
     }
 
     public static class TileEntityPSDDoorStationName extends TileEntityPSDDoor {
+        private long platformId;
+        private static final String KEY_PLATFORM_ID = "platform_id";
 
         public TileEntityPSDDoorStationName(int style, BlockPos pos, BlockState state) {
             super(style, pos, state);
+        }
+
+        @Override
+        public void readCompoundTag(CompoundTag compoundTag) {
+            super.readCompoundTag(compoundTag);
+            platformId = compoundTag.getLong(KEY_PLATFORM_ID);
+        }
+
+        @Override
+        public void writeCompoundTag(CompoundTag compoundTag) {
+            super.writeCompoundTag(compoundTag);
+            compoundTag.putLong(KEY_PLATFORM_ID, platformId);
+        }
+
+        public void setPlatformId(long platformId) {
+            this.platformId = platformId;
+            setChanged();
+            syncData();
+        }
+
+        public long getPlatformId() {
+            return platformId;
         }
     }
 }

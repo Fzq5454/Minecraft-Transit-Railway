@@ -119,12 +119,12 @@ public abstract class BlockPSDAPGDoorBase extends BlockPSDAPGBase implements Ent
 
 	public static abstract class TileEntityPSDAPGDoorBase extends BlockEntityClientSerializableMapper implements IGui {
 
-		private int open;
-		private float openClient;
-		private boolean temp = true;
+	private int open;
+	private float openClient;
+	private boolean temp = true;
 
-		private static final String KEY_OPEN = "open";
-		private static final String KEY_TEMP = "temp";
+	private static final String KEY_OPEN = "open";
+	private static final String KEY_TEMP = "temp";
 
 		public TileEntityPSDAPGDoorBase(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 			super(type, pos, state);
@@ -174,7 +174,15 @@ public abstract class BlockPSDAPGDoorBase extends BlockPSDAPGBase implements Ent
 		}
 
 		public boolean isOpen() {
-			return open > 0;
-		}
+		return open > 0;
 	}
+
+	/**
+	 * 获取平台ID的方法，子类可以重写此方法提供实际的平台ID
+	 * @return 平台ID，默认为0
+	 */
+	public long getPlatformId() {
+		return 0;
+	}
+}
 }

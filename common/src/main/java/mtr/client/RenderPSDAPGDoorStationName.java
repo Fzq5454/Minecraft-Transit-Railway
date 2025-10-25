@@ -2,13 +2,17 @@ package mtr.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import mtr.block.BlockPSDAPGDoorBase;
+import mtr.block.IBlock;
 import mtr.client.ClientData;
+import mtr.block.IBlock;
 import mtr.client.IDrawing;
+import mtr.data.IGui;
 import mtr.mappings.UtilitiesClient;
 import mtr.mappings.BlockEntityRendererMapper;
 import mtr.render.RenderTrains;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -18,8 +22,8 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 
 public class RenderPSDAPGDoorStationName<T extends BlockPSDAPGDoorBase.TileEntityPSDAPGDoorBase> extends BlockEntityRendererMapper<T> {
 
-    public RenderPSDAPGDoorStationName(BlockEntityRendererProvider.Context context) {
-        super(context);
+    public RenderPSDAPGDoorStationName(BlockEntityRenderDispatcher dispatcher) {
+        super(dispatcher);
     }
 
     @Override
@@ -40,7 +44,7 @@ public class RenderPSDAPGDoorStationName<T extends BlockPSDAPGDoorBase.TileEntit
     private void renderStationName(T entity, BlockPos pos, BlockState state, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
         final Direction facing = state.getValue(BlockPSDAPGDoorBase.FACING);
         final boolean side = state.getValue(BlockPSDAPGDoorBase.SIDE) == BlockPSDAPGDoorBase.EnumSide.RIGHT;
-        final long platformId = entity.platformId;
+        final long platformId = entity instanceof BlockPSDDoorStationName.TileEntityPSDDoorStationName ? ((BlockPSDDoorStationName.TileEntityPSDDoorStationName) entity).getPlatformId() : 0;
         
         if (platformId != 0 && ClientData.DATA_CACHE.platformIdToStation.containsKey(platformId)) {
             final String stationName = ClientData.DATA_CACHE.platformIdToStation.get(platformId).name;
@@ -58,7 +62,7 @@ public class RenderPSDAPGDoorStationName<T extends BlockPSDAPGDoorBase.TileEntit
                 
                 IDrawing.drawTexture(matricesNew, vertexConsumer, -0.5F, 0, -0.501F, 0.5F, 0.1F, 0.501F, facing, -1, light);
                 
-                IDrawing.drawText(matricesNew, vertexConsumer, stationName, 0, 0.05F, 0xFFFFFF, 0.03F, false, light, IDrawing.Alignment.CENTER);
+                IDrawing.drawStringWithFont(matricesNew, Minecraft.getInstance().font, stationName, 0, 0.05F, 0xFFFFFF, 0.03F, false, light, IGui.HorizontalAlignment.CENTER, IGui.VerticalAlignment.CENTER);
                 
                 matricesNew.popPose();
             });

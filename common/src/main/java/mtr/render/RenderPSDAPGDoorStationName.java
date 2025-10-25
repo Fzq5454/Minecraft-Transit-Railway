@@ -2,8 +2,11 @@ package mtr.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import mtr.block.BlockPSDAPGDoorBase;
+import mtr.block.BlockPSDDoorStationName;
+import mtr.block.IBlock;
 import mtr.client.ClientData;
 import mtr.client.IDrawing;
+import mtr.data.IGui;
 import mtr.mappings.UtilitiesClient;
 import mtr.render.RenderTrains;
 import mtr.mappings.BlockEntityRendererMapper;
@@ -11,6 +14,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -42,8 +46,8 @@ public class RenderPSDAPGDoorStationName<T extends BlockPSDAPGDoorBase.TileEntit
     
     private void renderStationName(T entity, BlockPos pos, BlockState state, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
         final Direction facing = state.getValue(BlockPSDAPGDoorBase.FACING);
-        final boolean side = state.getValue(BlockPSDAPGDoorBase.SIDE) == EnumSide.RIGHT;
-        final long platformId = entity.platformId;
+        final boolean side = state.getValue(BlockPSDAPGDoorBase.SIDE) == BlockPSDAPGDoorBase.EnumSide.RIGHT;
+        final long platformId = entity.getPlatformId();
         
         if (platformId != 0) {
             final String stationName = ClientData.DATA_CACHE.platformIdToStation.get(platformId) != null ? ClientData.DATA_CACHE.platformIdToStation.get(platformId).name : "";
@@ -61,7 +65,7 @@ public class RenderPSDAPGDoorStationName<T extends BlockPSDAPGDoorBase.TileEntit
                 
                 IDrawing.drawTexture(matricesNew, vertexConsumer, -0.5F, 0, -0.501F, 0.5F, 0.1F, 0.501F, facing, -1, light);
                 
-                IDrawing.drawText(matricesNew, vertexConsumer, stationName, 0, 0.05F, 0xFFFFFF, 0.03F, false, light, IDrawing.Alignment.CENTER);
+                IDrawing.drawStringWithFont(matricesNew, Minecraft.getInstance().font, stationName, 0, 0.05F, 0xFFFFFF, 0.03F, false, light, IGui.HorizontalAlignment.CENTER, IGui.VerticalAlignment.CENTER);
                 
                 matricesNew.popPose();
             });
