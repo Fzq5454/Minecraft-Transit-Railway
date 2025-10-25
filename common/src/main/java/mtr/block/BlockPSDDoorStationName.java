@@ -5,6 +5,7 @@ import mtr.Items;
 import mtr.mappings.BlockEntityMapper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.Item;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class BlockPSDDoorStationName extends BlockPSDDoor {
