@@ -5,7 +5,7 @@ import mtr.block.BlockPSDAPGDoorBase;
 import mtr.block.IBlock;
 import mtr.client.ClientData;
 import mtr.client.IDrawing;
-import mtr.client.UtilitiesClient;
+import mtr.mappings.UtilitiesClient;
 import mtr.data.RailwayData;
 import mtr.mappings.BlockEntityRendererMapper;
 import net.minecraft.client.renderer.MultiBufferSource;
