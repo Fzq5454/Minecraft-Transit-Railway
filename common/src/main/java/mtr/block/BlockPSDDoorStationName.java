@@ -21,7 +21,7 @@ public class BlockPSDDoorStationName extends BlockPSDDoor {
 
     @Override
     public Item asItem() {
-        return style == 0 ? Items.PSD_DOOR_STATION_NAME_1.get() : Items.PSD_DOOR_STATION_NAME_2.get();
+        return Items.PSD_DOOR_STATION_NAME_1.get();
     }
 
     public static class TileEntityPSDDoorStationName extends TileEntityPSDDoor {

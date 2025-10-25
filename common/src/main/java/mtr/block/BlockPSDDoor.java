@@ -23,7 +23,7 @@ public class BlockPSDDoor extends BlockPSDAPGDoorBase {
 
 	@Override
 	public Item asItem() {
-		return style == 0 ? Items.PSD_DOOR_1.get() : Items.PSD_DOOR_2.get();
+		return Items.PSD_DOOR_1.get();
 	}
 
 	public static class TileEntityPSDDoor extends TileEntityPSDAPGDoorBase {
