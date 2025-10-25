@@ -364,6 +364,24 @@ public class RouteMapGenerator implements IGui {
 		return null;
 	}
 
+	public static NativeImage generatePSDDoorStationName(String stationName, int textColor) {
+		try {
+			final int width = scale * 4;
+			final int height = scale;
+			final int padding = scale / 16;
+			final int[] dimensions = new int[2];
+			final byte[] pixels = ClientData.DATA_CACHE.getTextPixels(stationName, dimensions, width - padding * 2, height - padding * 2, fontSizeBig * 2, fontSizeSmall * 2, padding, HorizontalAlignment.CENTER, true);
+
+			final NativeImage nativeImage = new NativeImage(NativeImage.Format.RGBA, width, height, false);
+			nativeImage.fillRect(0, 0, width, height, 0);
+			drawString(nativeImage, pixels, width / 2, height / 2, dimensions, HorizontalAlignment.CENTER, VerticalAlignment.CENTER, 0, textColor, false);
+			return nativeImage;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public static NativeImage generateRouteMap(long platformId, boolean vertical, boolean flip, float aspectRatio, boolean transparentWhite) {
 		if (aspectRatio <= 0) {
 			return null;

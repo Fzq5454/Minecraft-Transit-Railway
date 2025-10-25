@@ -70,6 +70,8 @@ public interface Blocks {
 	RegistryObject<Block> PSD_GLASS_1 = new RegistryObject<>(() -> new BlockPSDGlass(0));
 	RegistryObject<Block> PSD_GLASS_END_1 = new RegistryObject<>(() -> new BlockPSDGlassEnd(0));
 	RegistryObject<Block> PSD_DOOR_2 = new RegistryObject<>(() -> new BlockPSDDoor(1));
+ 	RegistryObject<Block> PSD_DOOR_STATION_NAME_1 = new RegistryObject<>(() -> new BlockPSDDoorStationName(0));
+	RegistryObject<Block> PSD_DOOR_STATION_NAME_2 = new RegistryObject<>(() -> new BlockPSDDoorStationName(1));
 	RegistryObject<Block> PSD_GLASS_2 = new RegistryObject<>(() -> new BlockPSDGlass(1));
 	RegistryObject<Block> PSD_GLASS_END_2 = new RegistryObject<>(() -> new BlockPSDGlassEnd(1));
 	RegistryObject<Block> PSD_TOP = new RegistryObject<>(BlockPSDTop::new);
