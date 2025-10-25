@@ -49,11 +49,10 @@ public class RenderPSDAPGDoorStationName<T extends BlockPSDAPGDoorBase.TileEntit
         final Direction facing = IBlock.getStatePropertySafe(state, BlockPSDAPGDoorBase.FACING);
         final boolean side = IBlock.getStatePropertySafe(state, BlockPSDAPGDoorBase.SIDE) == EnumSide.RIGHT;
         final ClientCache dataCache = ClientData.DATA_CACHE;
-        final Set<Platform> platforms = dataCache.platforms;
-        final long platformId = RailwayData.getClosePlatformId(platforms, dataCache, pos);
+        final long platformId = dataCache.getClosePlatformId(pos);
         
         if (platformId != 0) {
-            final String stationName = dataCache.getStationName(dataCache.platforms, platformId);
+            final String stationName = dataCache.platformIdToStation.getOrDefault(platformId, null) != null ? dataCache.platformIdToStation.get(platformId).name : "";
             
             RenderTrains.scheduleRender(new ResourceLocation("mtr:textures/block/sign/white.png"), false, RenderTrains.QueuedRenderLayer.EXTERIOR, (matricesNew, vertexConsumer) -> {
                 matricesNew.pushPose();
@@ -68,7 +67,7 @@ public class RenderPSDAPGDoorStationName<T extends BlockPSDAPGDoorBase.TileEntit
                 
                 IDrawing.drawTexture(matricesNew, vertexConsumer, -0.5F, 0, -0.501F, 0.5F, 0.1F, 0.501F, facing, -1, light);
                 
-                IDrawing.drawText(matricesNew, vertexConsumer, stationName, 0, 0.05F, 0, 0.03F, 0xFFFFFF, false, light, IGui.HorizontalAlignment.CENTER);
+                IDrawing.drawStringWithFont(matricesNew, vertexConsumer, stationName, 0, 0.05F, 0xFFFFFF, 0.03F, false, light, IGui.HorizontalAlignment.CENTER);
                 
                 matricesNew.popPose();
             });

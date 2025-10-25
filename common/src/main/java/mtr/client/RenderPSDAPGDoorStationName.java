@@ -1,18 +1,23 @@
 package mtr.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import mtr.block.BlockPSDAPGDoorBase;
-import mtr.mappings.BlockEntityMapper;
+import mtr.block.IBlock;
+import mtr.client.IDrawing;
+import mtr.data.IGui;
 import mtr.mappings.BlockEntityRendererMapper;
 import mtr.mappings.UtilitiesClient;
-import mtr.render.RenderTrains;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import java.util.function.Consumer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import mtr.render.RenderTrains;
 
-public class RenderPSDAPGDoorStationName<T extends BlockEntityMapper> extends BlockEntityRendererMapper<T> {
+public class RenderPSDAPGDoorStationName<T extends BlockPSDAPGDoorBase.TileEntityPSDAPGDoorBase> extends BlockEntityRendererMapper<T> {
 
     public RenderPSDAPGDoorStationName(BlockEntityRendererProvider.Context context) {
         super(context);
@@ -20,44 +25,45 @@ public class RenderPSDAPGDoorStationName<T extends BlockEntityMapper> extends Bl
 
     @Override
     public void render(T entity, float tickDelta, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
-        if (entity instanceof BlockPSDAPGDoorBase.ITileEntityPSDAPGDoorBase) {
-            final BlockPSDAPGDoorBase.ITileEntityPSDAPGDoorBase psdDoorEntity = (BlockPSDAPGDoorBase.ITileEntityPSDAPGDoorBase) entity;
-            final Direction facing = psdDoorEntity.getDirection();
-            final float doorPosition = psdDoorEntity.getDoorPosition(tickDelta);
-            final boolean isRight = psdDoorEntity.getSide() == BlockPSDAPGDoorBase.EnumSide.RIGHT;
-
-
-            renderStationName(matrices, vertexConsumers, entity.getBlockPos(), facing, doorPosition, isRight, light);
+        final Level world = entity.getLevel();
+        if (world == null) {
+            return;
         }
+        
+        final BlockPos pos = entity.getBlockPos();
+        final BlockState state = world.getBlockState(pos);
+        if (IBlock.getStatePropertySafe(state, BlockPSDAPGDoorBase.HALF) != DoubleBlockHalf.UPPER) {
+            return;
+        }
+        renderStationName(entity, pos, state, matrices, vertexConsumers, light, overlay);
     }
-
-    private void renderStationName(PoseStack matrices, MultiBufferSource vertexConsumers, net.minecraft.core.BlockPos pos, Direction facing, float doorPosition, boolean isRight, int light) {
-        final long platformId = ClientData.DATA_CACHE.getPlatformId(pos);
-        if (platformId > 0) {
-            final String stationName = ClientData.DATA_CACHE.platformIdToStation.get(platformId).name;
-            final int textColor = 0xFF000000;
-            final float scale = 0.2f;
-            final float yOffset = 0.8f;
+    
+    private void renderStationName(T entity, BlockPos pos, BlockState state, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
+        final Direction facing = IBlock.getStatePropertySafe(state, BlockPSDAPGDoorBase.FACING);
+        final boolean side = IBlock.getStatePropertySafe(state, BlockPSDAPGDoorBase.SIDE) == BlockPSDAPGDoorBase.EnumSide.RIGHT;
+        final ClientCache dataCache = ClientData.DATA_CACHE;
+        final long platformId = dataCache.getClosePlatformId(pos);
+        
+        if (platformId != 0 && dataCache.platformIdToStation.containsKey(platformId)) {
+            final String stationName = dataCache.platformIdToStation.get(platformId).name;
             
-
-            final double xOffset = isRight ? (1 - doorPosition) : doorPosition;
-            final double zOffset = 0.02;
-            
-            matrices.pushPose();
-            UtilitiesClient.rotate90Degrees(matrices, facing);
-            matrices.translate(isRight ? xOffset - 1 : xOffset, yOffset, zOffset);
-            matrices.scale(scale, scale, scale);
-            
-            final Consumer<PoseStack> renderCallback = matricesNew -> {
+            RenderTrains.scheduleRender(new ResourceLocation("mtr:textures/block/sign/white.png"), false, RenderTrains.QueuedRenderLayer.EXTERIOR, (matricesNew, vertexConsumer) -> {
                 matricesNew.pushPose();
-                final int[] dimensions = new int[2];
-                final byte[] pixels = ClientData.DATA_CACHE.getTextPixels(stationName, dimensions, 200, 50, 20, 20, 0, null, true);
-                RenderTrains.renderPixels(matricesNew, vertexConsumers, pixels, dimensions[0], dimensions[1], 0, 0, textColor, light);
+                matricesNew.translate(0.5 + pos.getX(), pos.getY() + 1.2, 0.5 + pos.getZ());
+                UtilitiesClient.rotateYDegrees(matricesNew, -facing.toYRot());
+                UtilitiesClient.rotateXDegrees(matricesNew, 180);
+                if (side) {
+                    matricesNew.translate(-0.5, 0, 0);
+                } else {
+                    matricesNew.translate(0.5, 0, 0);
+                }
+                
+                IDrawing.drawTexture(matricesNew, vertexConsumer, -0.5F, 0, -0.501F, 0.5F, 0.1F, 0.501F, facing, -1, light);
+                
+                IDrawing.drawStringWithFont(matricesNew, vertexConsumer, stationName, 0, 0.05F, 0xFFFFFF, 0.03F, false, light, IGui.HorizontalAlignment.CENTER);
+                
                 matricesNew.popPose();
-            };
-            
-            RenderTrains.scheduleRender(renderCallback);
-            matrices.popPose();
+            });
         }
     }
 }
