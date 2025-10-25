@@ -3,7 +3,7 @@ package mtr.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import mtr.block.BlockPSDAPGDoorBase;
-import mtr.data.BlockEntityBase;
+import mtr.mappings.BlockEntityMapper;
 import mtr.mappings.BlockEntityRendererMapper;
 import mtr.mappings.UtilitiesClient;
 import mtr.render.RenderTrains;
@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
 import java.util.function.Consumer;
 
-public class RenderPSDAPGDoorStationName<T extends BlockEntityBase> extends BlockEntityRendererMapper<T> {
+public class RenderPSDAPGDoorStationName<T extends BlockEntityMapper> extends BlockEntityRendererMapper<T> {
 
     public RenderPSDAPGDoorStationName(BlockEntityRendererProvider.Context context) {
         super(context);
