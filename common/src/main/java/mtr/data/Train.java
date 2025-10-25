@@ -443,6 +443,8 @@ public abstract class Train extends NameColorDataBase implements IPacket {
 				return;
 			}
 
+			final double randomOffset = isOnRoute ? (Math.random() * 0.6 - 0.3) : 0;
+
 			final boolean tempDoorOpen;
 			final float tempDoorValue;
 			final int totalDwellTicks = getTotalDwellTicks();
@@ -496,6 +498,7 @@ public abstract class Train extends NameColorDataBase implements IPacket {
 						if (!world.isClientSide() && (isCurrentlyManual || elapsedDwellTicks >= totalDwellTicks) && !railBlocked && (!isCurrentlyManual || manualNotch > 0)) {
 							startUp(world, trainCars, spacing, isOppositeRail);
 						}
+
 					} else {
 						if (!world.isClientSide()) {
 							final int checkIndex = getIndex(0, spacing, true) + 1;
@@ -508,10 +511,9 @@ public abstract class Train extends NameColorDataBase implements IPacket {
 								}
 							}
 						}
-
-						final double stoppingDistance = distances.get(nextStoppingIndex) - railProgress;
+						final double stoppingDistance = distances.get(nextStoppingIndex) - railProgress + randomOffset;
 						if (!transportMode.continuousMovement && stoppingDistance < 0.5 * speed * speed / accelerationConstant) {
-							if (!isCurrentlyManual || nextStoppingIndex == path.size() -1) {
+							if (!isCurrentlyManual) {
 								speed = stoppingDistance <= 0 ? Train.ACCELERATION_DEFAULT : (float) Math.max(speed - (0.5 * speed * speed / stoppingDistance) * ticksElapsed, Train.ACCELERATION_DEFAULT);
 								manualNotch = -3;
 							}
@@ -546,8 +548,7 @@ public abstract class Train extends NameColorDataBase implements IPacket {
 
 					railProgress += speed * ticksElapsed;
 					if (!transportMode.continuousMovement && railProgress > distances.get(nextStoppingIndex)) {
-						final double randomOffset = Math.random() * 0.6 - 0.3;
-						if (!isCurrentlyManual || nextStoppingIndex == path.size() - 1){
+						if (!isCurrentlyManual){
 							railProgress = distances.get(nextStoppingIndex) + randomOffset;
 							speed = 0;
 							manualNotch = -2;
