@@ -232,7 +232,7 @@ public class MTR implements IPacket {
 			registerBlock.accept("psd_door", Blocks.PSD_DOOR_1);
 		registerBlock.accept("psd_glass", Blocks.PSD_GLASS_1);
 		registerBlock.accept("psd_glass_end", Blocks.PSD_GLASS_END_1);
-		registerBlock.accept("psd_door_2", Blocks.PSD_DOOR_2);
+		
 		registerBlock.accept("psd_door_station_name_1", Blocks.PSD_DOOR_STATION_NAME_1);
 		registerBlock.accept("psd_door_station_name_2", Blocks.PSD_DOOR_STATION_NAME_2);
 			registerBlock.accept("psd_glass_2", Blocks.PSD_GLASS_2);
@@ -365,7 +365,7 @@ public class MTR implements IPacket {
 			registerBlockEntityType.accept("boat_node", BlockEntityTypes.BOAT_NODE_TILE_ENTITY);
 			registerBlockEntityType.accept("clock", BlockEntityTypes.CLOCK_TILE_ENTITY);
 			registerBlockEntityType.accept("psd_door_1", BlockEntityTypes.PSD_DOOR_1_TILE_ENTITY);
-		registerBlockEntityType.accept("psd_door_2", BlockEntityTypes.PSD_DOOR_2_TILE_ENTITY);
+		
 		registerBlockEntityType.accept("psd_door_station_name_1", BlockEntityTypes.PSD_DOOR_STATION_NAME_1_TILE_ENTITY);
 		registerBlockEntityType.accept("psd_door_station_name_2", BlockEntityTypes.PSD_DOOR_STATION_NAME_2_TILE_ENTITY);
 			registerBlockEntityType.accept("psd_top", BlockEntityTypes.PSD_TOP_TILE_ENTITY);

@@ -4,7 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
@@ -14,7 +13,6 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.MinecartModel;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
@@ -33,16 +31,16 @@ import java.util.List;
 public interface UtilitiesClient {
 
 	static void beginDrawingRectangle(BufferBuilder buffer) {
-		RenderSystem.setShader(GameRenderer::getPositionColorShader);
-		buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+		RenderSystem.disableTexture();
+		buffer.begin(7, DefaultVertexFormat.POSITION_COLOR);
 	}
 
 	static void finishDrawingRectangle() {
+		RenderSystem.enableTexture();
 	}
 
 	static void beginDrawingTexture(ResourceLocation textureId) {
-		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-		RenderSystem.setShaderTexture(0, textureId);
+		Minecraft.getInstance().getTextureManager().bind(textureId);
 	}
 
 	static int drawInBatch(Font textRenderer, FormattedCharSequence formattedCharSequence, float x, float y, int color, boolean shadow, Matrix4f matrix4f, MultiBufferSource immediate, int overlay, int light) {
@@ -54,11 +52,11 @@ public interface UtilitiesClient {
 	}
 
 	static EntityModel<Minecart> getMinecartModel() {
-		return new MinecartModel<>(MinecartModel.createBodyLayer().bakeRoot());
+		return new MinecartModel<>();
 	}
 
 	static EntityModel<Boat> getBoatModel() {
-		return new BoatModel(BoatModel.createBodyModel().bakeRoot());
+		return new BoatModel();
 	}
 
 	static void setPacketCoordinates(Entity entity, double x, double y, double z) {
@@ -82,7 +80,7 @@ public interface UtilitiesClient {
 	}
 
 	static boolean isHovered(AbstractWidget widget) {
-		return widget.isHoveredOrFocused();
+		return widget.isHovered();
 	}
 
 	static File getResourcePackDirectory(Minecraft minecraft) {

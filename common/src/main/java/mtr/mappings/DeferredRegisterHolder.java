@@ -1,6 +1,6 @@
 package mtr.mappings;
 
-import dev.architectury.registry.registries.DeferredRegister;
+import me.shedaniel.architectury.registry.DeferredRegister;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 

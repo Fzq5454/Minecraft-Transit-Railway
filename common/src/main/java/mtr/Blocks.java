@@ -66,10 +66,10 @@ public interface Blocks {
 	RegistryObject<Block> PLATFORM_NA_2_INDENTED = new RegistryObject<>(() -> new BlockPlatform(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_YELLOW).requiresCorrectToolForDrops().strength(2).noOcclusion(), true));
 	RegistryObject<Block> PLATFORM_UK_1 = new RegistryObject<>(() -> new BlockPlatform(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_YELLOW).requiresCorrectToolForDrops().strength(2), false));
 	RegistryObject<Block> PLATFORM_UK_1_INDENTED = new RegistryObject<>(() -> new BlockPlatform(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_YELLOW).requiresCorrectToolForDrops().strength(2).noOcclusion(), true));
-	RegistryObject<Block> PSD_DOOR_1 = new RegistryObject<>(() -> new BlockPSDDoor(0));
+	RegistryObject<Block> PSD_DOOR_1 = new RegistryObject<>(() -> new BlockPSDDoor());
 	RegistryObject<Block> PSD_GLASS_1 = new RegistryObject<>(() -> new BlockPSDGlass(0));
 	RegistryObject<Block> PSD_GLASS_END_1 = new RegistryObject<>(() -> new BlockPSDGlassEnd(0));
-	RegistryObject<Block> PSD_DOOR_2 = new RegistryObject<>(() -> new BlockPSDDoor(1));
+
  	RegistryObject<Block> PSD_DOOR_STATION_NAME_1 = new RegistryObject<>(() -> new BlockPSDDoorStationName(0));
 	RegistryObject<Block> PSD_DOOR_STATION_NAME_2 = new RegistryObject<>(() -> new BlockPSDDoorStationName(1));
 	RegistryObject<Block> PSD_GLASS_2 = new RegistryObject<>(() -> new BlockPSDGlass(1));

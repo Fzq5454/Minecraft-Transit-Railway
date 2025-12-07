@@ -1,6 +1,6 @@
 package mtr.mappings;
 
-public interface TickableMapper {
+import net.minecraft.world.level.block.entity.TickableBlockEntity;
 
-	void tick();
+public interface TickableMapper extends TickableBlockEntity {
 }

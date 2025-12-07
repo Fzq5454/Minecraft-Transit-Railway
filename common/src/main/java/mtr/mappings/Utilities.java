@@ -25,35 +25,35 @@ import java.util.function.Function;
 public interface Utilities {
 
 	static float getYaw(Entity entity) {
-		return entity.getYRot();
+		return entity.yRot;
 	}
 
 	static void setYaw(Entity entity, float yaw) {
-		entity.setYRot(yaw);
+		entity.yRot = yaw;
 	}
 
 	static void incrementYaw(Entity entity, float yaw) {
-		setYaw(entity, entity.getYRot() + yaw);
+		entity.yRot += yaw;
 	}
 
 	static boolean isHolding(Player player, Function<Item, Boolean> predicate) {
-		return player.isHolding(itemStack -> predicate.apply(itemStack.getItem()));
+		return player.isHolding(predicate::apply);
 	}
 
 	static Inventory getInventory(Player player) {
-		return player.getInventory();
+		return player.inventory;
 	}
 
 	static Abilities getAbilities(Player player) {
-		return player.getAbilities();
+		return player.abilities;
 	}
 
 	static void scheduleBlockTick(Level world, BlockPos pos, Block block, int ticks) {
-		world.scheduleTick(pos, block, ticks);
+		world.getBlockTicks().scheduleTick(pos, block, ticks);
 	}
 
 	static boolean entityRemoved(Entity entity) {
-		return entity == null || entity.isRemoved();
+		return entity == null || entity.removed;
 	}
 
 	static InputStream getInputStream(Resource resource) throws IOException {

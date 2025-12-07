@@ -90,7 +90,7 @@ public class ItemPSDAPGBase extends ItemWithCreativeTabBase implements IBlock {
 			case PSD_2:
 				switch (item) {
 					case PSD_APG_DOOR:
-						return Blocks.PSD_DOOR_2.get().defaultBlockState();
+						return Blocks.PSD_DOOR_1.get().defaultBlockState();
 					case PSD_APG_GLASS:
 						return Blocks.PSD_GLASS_2.get().defaultBlockState();
 					case PSD_APG_GLASS_END:

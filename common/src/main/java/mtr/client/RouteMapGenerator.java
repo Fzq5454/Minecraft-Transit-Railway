@@ -347,11 +347,6 @@ public class RouteMapGenerator implements IGui {
 					}
 				}
 			}
-			/*
-			for (int i = 0; i < colors.size(); i++) {
-				drawResource(nativeImage, CIRCLEP_RESOURCE, circleX, padding, tileSize, tileSize, false, (float) i / colors.size(), (i + 1F) / colors.size(), colors.get(i), false);
-			}
-			*/
 			if (transparentColor != 0) {
 				clearColor(nativeImage, invertColor(transparentColor));
 			}
@@ -468,7 +463,7 @@ public class RouteMapGenerator implements IGui {
 					height = Math.round(rawHeight * scale);
 					width = Math.round(height * aspectRatio);
 					heightScale = 1;
-					widthScale = width / rawWidth / scale;
+					widthScale = width / rawWidth / scale / 4 * 3;
 				}
 
 				if (width <= 0 || height <= 0) {
@@ -484,9 +479,9 @@ public class RouteMapGenerator implements IGui {
 					final int currentIndex = routeDetails.get(routeIndex).getB();
 					final Map<Integer, StationPosition> routeStationPositions = stationPositions.get(routeIndex);
 
-					for (int stationIndex = 0; stationIndex < route.platformIds.size(); stationIndex++) {
-						final StationPosition stationPosition = routeStationPositions.get(stationIndex - currentIndex);
-						if (stationIndex < route.platformIds.size() - 1) {
+					for (int stationIndex = 0; stationIndex < rou routeStationPositions.get(stationIndex - currentIndex);
+						if (stationIndex < route.platformIds.te.platformIds.size(); stationIndex++) {
+							final StationPosition stationPosition =size() - 1) {
 							drawLine(nativeImage, stationPosition, routeStationPositions.get(stationIndex + 1 - currentIndex), widthScale, heightScale, xOffset, yOffset, stationIndex < currentIndex ? ARGB_LIGHT_GRAY : ARGB_BLACK | route.color);
 						}
 
@@ -555,6 +550,7 @@ public class RouteMapGenerator implements IGui {
 				if (transparentWhite) {
 					clearColor(nativeImage, ARGB_WHITE);
 				}
+				qs
 
 				return nativeImage;
 			}

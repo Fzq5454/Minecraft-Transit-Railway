@@ -10,20 +10,13 @@ import java.util.function.Supplier;
 public abstract class PersistentStateMapper extends SavedData {
 
 	public PersistentStateMapper(String name) {
-		super();
+		super(name);
 	}
 
+	@Override
 	public abstract void load(CompoundTag compoundTag);
 
 	protected static <T extends PersistentStateMapper> T getInstance(Level world, Supplier<T> supplier, String name) {
-		if (world instanceof ServerLevel) {
-			return ((ServerLevel) world).getDataStorage().computeIfAbsent(nbtCompound -> {
-				final T railwayData = supplier.get();
-				railwayData.load(nbtCompound);
-				return railwayData;
-			}, supplier, name);
-		} else {
-			return null;
-		}
+		return world instanceof ServerLevel ? ((ServerLevel) world).getDataStorage().computeIfAbsent(supplier, name) : null;
 	}
 }
