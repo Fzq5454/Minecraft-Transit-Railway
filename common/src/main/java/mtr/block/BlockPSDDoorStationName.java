@@ -29,7 +29,8 @@ public class BlockPSDDoorStationName extends BlockPSDDoor {
         private static final String KEY_PLATFORM_ID = "platform_id";
 
         public TileEntityPSDDoorStationName(int style, BlockPos pos, BlockState state) {
-            super(style, pos, state);
+            super(pos, state);
+            // style参数保留以保持与BlockEntityTypes.java的兼容性，但不再传递给父类
         }
 
         @Override

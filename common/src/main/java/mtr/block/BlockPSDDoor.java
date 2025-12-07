@@ -34,7 +34,7 @@ public class BlockPSDDoor extends BlockPSDAPGDoorBase {
 	public static class TileEntityPSDDoor extends TileEntityPSDAPGDoorBase {
 
 		public TileEntityPSDDoor(BlockPos pos, BlockState state) {
-			super(BlockEntityTypes.PSD_DOOR_TILE_ENTITY.get(), pos, state);
+			super(BlockEntityTypes.PSD_DOOR_1_TILE_ENTITY.get(), pos, state);
 		}
 	}
 }
