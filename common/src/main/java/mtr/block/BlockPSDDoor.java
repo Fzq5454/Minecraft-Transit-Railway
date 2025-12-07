@@ -9,16 +9,21 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class BlockPSDDoor extends BlockPSDAPGDoorBase {
 
-	protected final int style = 0;
+	protected final int style;
 
 	public BlockPSDDoor() {
 		super();
 		this.style = 0;
 	}
 
+	public BlockPSDDoor(int style) {
+		super();
+		this.style = style;
+	}
+
 	@Override
 	public BlockEntityMapper createBlockEntity(BlockPos pos, BlockState state) {
-		return new TileEntityPSDDoor(style, pos, state);
+		return new TileEntityPSDDoor(pos, state);
 	}
 
 	@Override
@@ -28,8 +33,8 @@ public class BlockPSDDoor extends BlockPSDAPGDoorBase {
 
 	public static class TileEntityPSDDoor extends TileEntityPSDAPGDoorBase {
 
-		public TileEntityPSDDoor(int style, BlockPos pos, BlockState state) {
-			super(pos, state);
+		public TileEntityPSDDoor(BlockPos pos, BlockState state) {
+			super(BlockEntityTypes.PSD_DOOR_TILE_ENTITY.get(), pos, state);
 		}
 	}
 }
