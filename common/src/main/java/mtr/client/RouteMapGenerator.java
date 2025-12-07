@@ -479,11 +479,9 @@ public class RouteMapGenerator implements IGui {
 					final int currentIndex = routeDetails.get(routeIndex).getB();
 					final Map<Integer, StationPosition> routeStationPositions = stationPositions.get(routeIndex);
 
-					for (int stationIndex = 0; stationIndex < rou routeStationPositions.get(stationIndex - currentIndex);
-						if (stationIndex < route.platformIds.te.platformIds.size(); stationIndex++) {
-							final StationPosition stationPosition =size() - 1) {
-							drawLine(nativeImage, stationPosition, routeStationPositions.get(stationIndex + 1 - currentIndex), widthScale, heightScale, xOffset, yOffset, stationIndex < currentIndex ? ARGB_LIGHT_GRAY : ARGB_BLACK | route.color);
-						}
+					for (int stationIndex = 0; stationIndex < routeStationPositions.size() - 1; stationIndex++) {
+						final StationPosition stationPosition = routeStationPositions.get(stationIndex - currentIndex);
+						drawLine(nativeImage, stationPosition, routeStationPositions.get(stationIndex + 1 - currentIndex), widthScale, heightScale, xOffset, yOffset, stationIndex < currentIndex ? ARGB_LIGHT_GRAY : ARGB_BLACK | route.color);
 
 						final long stationId = getStationId(route.platformIds.get(stationIndex).platformId);
 						if (!stationPositionsGrouped.containsKey(stationId)) {
@@ -550,8 +548,6 @@ public class RouteMapGenerator implements IGui {
 				if (transparentWhite) {
 					clearColor(nativeImage, ARGB_WHITE);
 				}
-				qs
-
 				return nativeImage;
 			}
 		} catch (Exception e) {
